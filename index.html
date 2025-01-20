@@ -72,8 +72,8 @@
 <body>
     <div class="logo">Skye's Search</div>
     <div class="search-container">
-        <form action="" method="get" onsubmit="window.location.href = document.querySelector('.search-bar').value; return false;">
-            <input type="text" name="q" class="search-bar" autofocus>
+        <form action="" method="get" onsubmit="handleSearch(event)">
+            <input type="text" name="q" class="search-bar" id="search-bar" placeholder="Search for a website, e.g., example.com" autofocus>
         </form>
     </div>
     <div class="button-container">
@@ -84,5 +84,23 @@
             <button type="button" class="about-button">About</button>
         </a>
     </div>
+
+    <script>
+        // Function to automatically prepend "https://" if not already present
+        function handleSearch(event) {
+            event.preventDefault(); // Prevent the form from submitting
+
+            let searchBar = document.getElementById('search-bar');
+            let query = searchBar.value.trim();
+
+            // Check if the input starts with 'http://' or 'https://', if not, add 'https://'
+            if (!/^https?:\/\//i.test(query)) {
+                query = 'https://' + query;
+            }
+
+            // Redirect to the entered URL
+            window.location.href = query;
+        }   
+    </script>
 </body>
 </html>
