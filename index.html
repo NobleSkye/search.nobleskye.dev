@@ -8,14 +8,14 @@
     <!-- Open Graph Meta Tags -->
     <meta property="og:title" content="Skye's Search">
     <meta property="og:description" content="Skye's Search is a personalized search tool to help you find what you're looking for with ease.">
-    <meta property="og:url" content="https://nobleskye.dev">
+    <meta property="og:url" content="https://yourwebsite.com">
     <meta property="og:type" content="website">
-    <meta property="og:image" content="https://nobleskye.dev/path/to/your/image.jpg">
+    <meta property="og:image" content="https://yourwebsite.com/path/to/your/image.jpg">
     
     <!-- Twitter Card Meta Tags (optional but good for Twitter) -->
     <meta name="twitter:title" content="Skye's Search">
     <meta name="twitter:description" content="Skye's Search is a personalized search tool to help you find what you're looking for with ease.">
-    <meta name="twitter:image" content="https://nobleskye.dev/path/to/your/image.jpg">
+    <meta name="twitter:image" content="https://yourwebsite.com/path/to/your/image.jpg">
     <meta name="twitter:card" content="summary_large_image">
     
     <style>
@@ -50,15 +50,21 @@
         .search-bar:hover {
             box-shadow: 0 1px 6px rgba(32,33,36,.28);
         }
-        .search-button {
+        .button-container {
             margin-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 584px;
+        }
+        .search-button, .about-button {
             padding: 10px 20px;
             border: none;
             background-color: #f8f9fa;
             border-radius: 4px;
             cursor: pointer;
         }
-        .search-button:hover {
+        .search-button:hover, .about-button:hover {
             border: 1px solid #1549af;
         }
     </style>
@@ -66,12 +72,17 @@
 <body>
     <div class="logo">Skye's Search</div>
     <div class="search-container">
-        <form action="/about" method="get"></form>
+        <form action="" method="get" onsubmit="window.location.href = document.querySelector('.search-bar').value; return false;">
             <input type="text" name="q" class="search-bar" autofocus>
-            <center>
-                <button type="submit" class="search-button">about</button>
-            </center>
         </form>
+    </div>
+    <div class="button-container">
+        <!-- Search Button -->
+        <button type="submit" class="search-button">Search</button>
+        <!-- About Button -->
+        <a href="https://search.nobleskye.dev/about.html">
+            <button type="button" class="about-button">About</button>
+        </a>
     </div>
 </body>
 </html>
