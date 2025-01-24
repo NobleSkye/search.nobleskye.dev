@@ -21,11 +21,10 @@
             font-family: Arial, sans-serif;
             background-color: rgb(66, 66, 66);
         }
-        .logo {
-            font-size: 4em;
+        .logo img {
+            max-width: 200px; /* Adjust the size of the logo */
+            height: auto;
             margin-bottom: 20px;
-            font-weight: bold;
-            color: rgb(167, 8, 159);
         }
         .search-container {
             width: 100%;
@@ -62,7 +61,9 @@
     </style>
 </head>
 <body>
-    <div class="logo">Skye's Search</div>
+    <div class="logo">
+        <img src="logo.png" alt="Skye Search Logo"> <!-- Image logo -->
+    </div>
     <div class="search-container">
         <form action="" method="get" id="search-form">
             <input type="text" name="q" class="search-bar" id="search-bar" placeholder="Search or enter URL" autofocus>
