@@ -11,53 +11,60 @@
     <meta name="twitter:description" content="Skye Search Is a search engine that uses many search engines and puts the results together">
     <meta name="twitter:card" content="summary_large_image">
     <style>
-        body {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            margin: 0;
-            font-family: Arial, sans-serif;
-            background-color: rgb(66, 66, 66);
-        }
-        .logo img {
-            max-width: 550px; /* Adjust the size of the logo */
-            height: 550px;
-            margin-bottom: 10px;
-        }
-        .search-container {
-            width: 100%;
-            max-width: 584px;
-        }
-        .search-bar {
-            width: 100%;
-            padding: 12px;
-            font-size: 16px;
-            border: 1px solid #000000;
-            border-radius: 24px;
-            outline: none;
-        }
-        .search-bar:hover {
-            box-shadow: 0 1px 6px rgba(32,33,36,.28);
-        }
-        .button-container {
-            margin-top: 20px;
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            max-width: 584px;
-        }
-        .search-button, .about-button {
-            padding: 10px 20px;
-            border: none;
-            background-color: #f8f9fa;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        .search-button:hover, .about-button:hover {
-            border: 1px solid #1549af;
-        }
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background-color: rgb(66, 66, 66);
+}
+
+.logo img {
+    max-width: 250px; /* Adjust the size of the logo */
+    height: auto; /* Maintain the aspect ratio */
+    margin-bottom: 20px; /* Adjust spacing between logo and search bar */
+}
+
+.search-container {
+    width: 100%;
+    max-width: 584px;
+}
+
+.search-bar {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    border: 1px solid #000000;
+    border-radius: 24px;
+    outline: none;
+}
+
+.search-bar:hover {
+    box-shadow: 0 1px 6px rgba(32,33,36,.28);
+}
+
+.button-container {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+    max-width: 584px;
+}
+
+.search-button, .about-button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #f8f9fa;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.search-button:hover, .about-button:hover {
+    border: 1px solid #1549af;
+}
     </style>
 </head>
 <body>
