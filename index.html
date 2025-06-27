@@ -421,6 +421,37 @@ body {
 .privacy-checkbox {
     margin-right: 8px;
 }
+
+.commit-info {
+    position: fixed;
+    bottom: 10px;
+    left: 10px;
+    background-color: rgba(0, 0, 0, 0.7);
+    color: #ccc;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 10px;
+    font-family: 'Courier New', monospace;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    z-index: 100;
+    cursor: pointer;
+    transition: background-color 0.2s;
+}
+
+.commit-info:hover {
+    background-color: rgba(0, 0, 0, 0.9);
+    color: white;
+}
+
+.commit-hash {
+    color: #4CAF50;
+    font-weight: bold;
+}
+
+.commit-date {
+    color: #888;
+    margin-left: 5px;
+}
     </style>
 </head>
 <body>
@@ -1050,6 +1081,7 @@ body {
             initializeGreeting();
             initializeWeather();
             autoFocusSearch();
+            loadCommitInfo();
             
             // Load custom AI providers
             const customProviders = localStorage.getItem('customAIProviders');
@@ -1062,6 +1094,87 @@ body {
                 }
             }
         });
+
+        // Commit info functionality
+        async function loadCommitInfo() {
+            try {
+                // Try to fetch from GitHub API
+                const response = await fetch('https://api.github.com/repos/YOUR_USERNAME/search.nobleskye.dev/commits?per_page=1');
+                
+                if (response.ok) {
+                    const commits = await response.json();
+                    if (commits.length > 0) {
+                        const latestCommit = commits[0];
+                        const shortHash = latestCommit.sha.substring(0, 7);
+                        const date = new Date(latestCommit.commit.author.date);
+                        const timeAgo = getTimeAgo(date);
+                        
+                        document.getElementById('commit-hash').textContent = shortHash;
+                        document.getElementById('commit-date').textContent = timeAgo;
+                        
+                        // Store full commit info for details
+                        window.latestCommitInfo = {
+                            hash: latestCommit.sha,
+                            shortHash: shortHash,
+                            message: latestCommit.commit.message,
+                            author: latestCommit.commit.author.name,
+                            date: date,
+                            url: latestCommit.html_url
+                        };
+                        return;
+                    }
+                }
+            } catch (error) {
+                console.log('Could not fetch from GitHub API, using fallback');
+            }
+            
+            // Fallback: Use a manual commit info or build timestamp
+            const buildDate = new Date('2025-06-27T12:00:00Z'); // Update this when deploying
+            const buildHash = 'local-' + Math.random().toString(36).substr(2, 7);
+            
+            document.getElementById('commit-hash').textContent = buildHash;
+            document.getElementById('commit-date').textContent = getTimeAgo(buildDate);
+            
+            window.latestCommitInfo = {
+                hash: buildHash,
+                shortHash: buildHash,
+                message: 'Local development build',
+                author: 'Developer',
+                date: buildDate,
+                url: '#'
+            };
+        }
+
+        function getTimeAgo(date) {
+            const now = new Date();
+            const diffInSeconds = Math.floor((now - date) / 1000);
+            
+            if (diffInSeconds < 60) return 'just now';
+            if (diffInSeconds < 3600) return `${Math.floor(diffInSeconds / 60)}m ago`;
+            if (diffInSeconds < 86400) return `${Math.floor(diffInSeconds / 3600)}h ago`;
+            if (diffInSeconds < 2592000) return `${Math.floor(diffInSeconds / 86400)}d ago`;
+            return `${Math.floor(diffInSeconds / 2592000)}mo ago`;
+        }
+
+        function showCommitDetails() {
+            if (window.latestCommitInfo) {
+                const info = window.latestCommitInfo;
+                const message = `Latest Commit Details:
+                
+Hash: ${info.hash}
+Author: ${info.author}
+Date: ${info.date.toLocaleString()}
+Message: ${info.message}
+
+Click OK to view on GitHub (if available)`;
+                
+                if (confirm(message) && info.url !== '#') {
+                    window.open(info.url, '_blank');
+                }
+            } else {
+                alert('Commit information not yet loaded.');
+            }
+        }
     </script>
     <div class="shortcuts">
         <h3>Quick Access</h3>
@@ -1075,6 +1188,10 @@ body {
     <div class="footer">
         <p>© 2025 NobleSkye. All rights reserved.</p>
         <p><a href="privacy">Privacy Policy</a> | <a href="https://nobleskye.dev/">About NobleSkye</a> | <a href="/terms">Terms of Service</a></p>
+        <div class="commit-info" id="commit-info" onclick="showCommitDetails()">
+            <span class="commit-hash" id="commit-hash">Loading...</span>
+            <span class="commit-date" id="commit-date"></span>
+        </div>
     </div>
 </body>
 </html>
