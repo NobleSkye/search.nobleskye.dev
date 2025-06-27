@@ -251,6 +251,175 @@ body {
     body {
         padding-top: 50px;
     }
+    
+    .command-popup {
+        width: 90% !important;
+        max-width: 500px !important;
+    }
+}
+
+/* Command Popup Styles */
+.command-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(10px);
+    z-index: 1000;
+    display: none;
+    justify-content: center;
+    align-items: flex-start;
+    padding-top: 10vh;
+}
+
+.command-popup {
+    background-color: rgba(30, 30, 30, 0.95);
+    border-radius: 12px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    width: 600px;
+    max-width: 90vw;
+    max-height: 80vh;
+    overflow: hidden;
+}
+
+.command-input {
+    width: 100%;
+    padding: 20px;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    color: white;
+    font-size: 18px;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.command-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.command-results {
+    max-height: 400px;
+    overflow-y: auto;
+    padding: 10px 0;
+}
+
+.command-item {
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    color: white;
+    transition: background-color 0.2s;
+}
+
+.command-item:hover, .command-item.selected {
+    background-color: rgba(0, 122, 255, 0.6);
+}
+
+.command-icon {
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+}
+
+.command-text {
+    flex: 1;
+}
+
+.command-title {
+    font-weight: 500;
+    margin-bottom: 2px;
+}
+
+.command-subtitle {
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ai-iframe-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.8);
+    z-index: 2000;
+    display: none;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.ai-iframe-wrapper {
+    background-color: white;
+    border-radius: 12px;
+    width: 90%;
+    height: 90%;
+    max-width: 1200px;
+    max-height: 800px;
+    position: relative;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+}
+
+.ai-iframe-header {
+    background-color: #f5f5f5;
+    padding: 15px 20px;
+    border-radius: 12px 12px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid #ddd;
+}
+
+.ai-iframe-title {
+    font-weight: 600;
+    color: #333;
+}
+
+.ai-iframe-close {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+    color: #666;
+    padding: 5px;
+    border-radius: 4px;
+}
+
+.ai-iframe-close:hover {
+    background-color: #e0e0e0;
+}
+
+.ai-iframe {
+    width: 100%;
+    height: calc(100% - 70px);
+    border: none;
+    border-radius: 0 0 12px 12px;
+}
+
+.privacy-warning {
+    background-color: rgba(255, 193, 7, 0.1);
+    border: 1px solid rgba(255, 193, 7, 0.3);
+    border-radius: 8px;
+    padding: 12px;
+    margin: 10px 20px;
+    color: #ffc107;
+    font-size: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.privacy-checkbox {
+    margin-right: 8px;
 }
     </style>
 </head>
@@ -271,6 +440,32 @@ body {
     <div class="button-container">
         <button type="submit" class="search-button" onclick="handleSearch(event)">Search</button>
         <button type="button" class="about-button" onclick="navigate('https://search.nobleskye.dev/about.html')">About</button>
+    </div>
+
+    <!-- Command Popup -->
+    <div class="command-overlay" id="command-overlay">
+        <div class="command-popup">
+            <input type="text" class="command-input" id="command-input" placeholder="Type a command..." autocomplete="off">
+            <div class="privacy-warning" id="privacy-warning" style="display: none;">
+                <span>⚠️</span>
+                <div>
+                    <input type="checkbox" class="privacy-checkbox" id="privacy-checkbox">
+                    <label for="privacy-checkbox">I understand these are 3rd party apps that may or may not track you and are not affiliated with Skye Search</label>
+                </div>
+            </div>
+            <div class="command-results" id="command-results"></div>
+        </div>
+    </div>
+
+    <!-- AI Chat iframe Container -->
+    <div class="ai-iframe-container" id="ai-iframe-container">
+        <div class="ai-iframe-wrapper">
+            <div class="ai-iframe-header">
+                <div class="ai-iframe-title" id="ai-iframe-title">AI Chat</div>
+                <button class="ai-iframe-close" onclick="closeAIChat()">×</button>
+            </div>
+            <iframe class="ai-iframe" id="ai-iframe" src=""></iframe>
+        </div>
     </div>
     <script>
         function isValidUrl(string) {
@@ -483,16 +678,25 @@ body {
             renderShortcuts();
         }
 
-        // Initialize shortcuts when page loads
+        // Initialize everything when page loads
         document.addEventListener('DOMContentLoaded', () => {
             renderShortcuts();
             initializeClock();
             initializeGreeting();
             initializeWeather();
             autoFocusSearch();
+            
+            // Load custom AI providers
+            const customProviders = localStorage.getItem('customAIProviders');
+            if (customProviders) {
+                try {
+                    const providers = JSON.parse(customProviders);
+                    aiProviders.push(...providers);
+                } catch (e) {
+                    console.error('Failed to load custom AI providers:', e);
+                }
+            }
         });
-
-        // Auto-focus functionality
         function autoFocusSearch() {
             const searchBar = document.getElementById('search-bar');
             
@@ -520,11 +724,11 @@ body {
                 }
             });
             
-            // Re-focus when pressing Escape
+            // Re-focus when pressing Escape (only if command popup is not open)
             document.addEventListener('keydown', (e) => {
-                if (e.key === 'Escape') {
-                    searchBar.focus();
-                    searchBar.select();
+                if (e.key === 'Escape' && document.getElementById('command-overlay').style.display !== 'flex') {
+                    document.getElementById('search-bar').focus();
+                    document.getElementById('search-bar').select();
                 }
             });
         }
@@ -599,6 +803,17 @@ body {
 
         // Keyboard shortcuts
         document.addEventListener('keydown', (e) => {
+            // Escape to open command popup (unless search bar is focused)
+            if (e.key === 'Escape') {
+                e.preventDefault();
+                if (document.getElementById('command-overlay').style.display === 'flex') {
+                    closeCommandPopup();
+                } else {
+                    openCommandPopup();
+                }
+                return;
+            }
+            
             // Ctrl/Cmd + K to focus search
             if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
                 e.preventDefault();
@@ -612,6 +827,238 @@ body {
                 const index = parseInt(e.key) - 1;
                 if (shortcuts[index]) {
                     window.open(shortcuts[index].url, '_blank');
+                }
+            }
+        });
+
+        // Command Popup functionality
+        const aiProviders = [
+            { name: 'Claude', url: 'https://claude.ai/', icon: '🤖' },
+            { name: 'ChatGPT', url: 'https://chatgpt.com/', icon: '💬' },
+            { name: 'T3 Chat', url: 'https://t3.chat/', icon: '🚀' },
+            { name: 'Perplexity', url: 'https://perplexity.ai/', icon: '🔍' },
+            { name: 'Gemini', url: 'https://gemini.google.com/', icon: '✨' },
+            { name: 'Character.AI', url: 'https://character.ai/', icon: '🎭' },
+            { name: 'Poe', url: 'https://poe.com/', icon: '🧠' },
+            { name: 'You.com', url: 'https://you.com/', icon: '🌐' },
+            { name: 'Bing Chat', url: 'https://bing.com/chat', icon: '🔷' },
+            { name: 'HuggingFace Chat', url: 'https://huggingface.co/chat/', icon: '🤗' }
+        ];
+
+        const commands = [
+            { name: 'Open AI Chat', icon: '🤖', action: 'ai-chat', subtitle: 'Choose an AI provider' },
+            { name: 'Add Custom AI Provider', icon: '➕', action: 'add-provider', subtitle: 'Add your own AI chat service' },
+            { name: 'Reset Privacy Settings', icon: '🔄', action: 'reset-privacy', subtitle: 'Reset AI privacy acknowledgment' },
+            { name: 'Focus Search', icon: '🔍', action: 'focus-search', subtitle: 'Focus on the search bar' },
+            { name: 'Add New Shortcut', icon: '📌', action: 'add-shortcut', subtitle: 'Add a new quick access shortcut' },
+            { name: 'Settings', icon: '⚙️', action: 'settings', subtitle: 'Manage your preferences' }
+        ];
+
+        let selectedCommandIndex = 0;
+        let currentCommands = [];
+        let isAIProviderSelection = false;
+
+        function openCommandPopup() {
+            document.getElementById('command-overlay').style.display = 'flex';
+            document.getElementById('command-input').focus();
+            document.getElementById('command-input').value = '';
+            isAIProviderSelection = false;
+            updateCommandResults('');
+        }
+
+        function closeCommandPopup() {
+            document.getElementById('command-overlay').style.display = 'none';
+            document.getElementById('privacy-warning').style.display = 'none';
+            document.getElementById('search-bar').focus();
+        }
+
+        function updateCommandResults(query) {
+            const resultsContainer = document.getElementById('command-results');
+            selectedCommandIndex = 0;
+            
+            if (isAIProviderSelection) {
+                // Show AI providers
+                currentCommands = aiProviders.filter(provider => 
+                    provider.name.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                resultsContainer.innerHTML = currentCommands.map((provider, index) => `
+                    <div class="command-item ${index === selectedCommandIndex ? 'selected' : ''}" onclick="selectAIProvider('${provider.url}', '${provider.name}')">
+                        <div class="command-icon">${provider.icon}</div>
+                        <div class="command-text">
+                            <div class="command-title">${provider.name}</div>
+                            <div class="command-subtitle">Open ${provider.name} in iframe</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                // Check if user has already acknowledged privacy
+                const privacyAcknowledged = localStorage.getItem('aiPrivacyAcknowledged') === 'true';
+                if (!privacyAcknowledged) {
+                    document.getElementById('privacy-warning').style.display = 'block';
+                    document.getElementById('privacy-checkbox').checked = false;
+                } else {
+                    document.getElementById('privacy-warning').style.display = 'none';
+                }
+            } else {
+                // Show regular commands
+                currentCommands = commands.filter(cmd => 
+                    cmd.name.toLowerCase().includes(query.toLowerCase()) ||
+                    cmd.subtitle.toLowerCase().includes(query.toLowerCase())
+                );
+                
+                resultsContainer.innerHTML = currentCommands.map((cmd, index) => `
+                    <div class="command-item ${index === selectedCommandIndex ? 'selected' : ''}" onclick="executeCommand('${cmd.action}')">
+                        <div class="command-icon">${cmd.icon}</div>
+                        <div class="command-text">
+                            <div class="command-title">${cmd.name}</div>
+                            <div class="command-subtitle">${cmd.subtitle}</div>
+                        </div>
+                    </div>
+                `).join('');
+                
+                document.getElementById('privacy-warning').style.display = 'none';
+            }
+        }
+
+        function executeCommand(action) {
+            switch(action) {
+                case 'ai-chat':
+                    isAIProviderSelection = true;
+                    document.getElementById('command-input').value = '';
+                    updateCommandResults('');
+                    break;
+                case 'add-provider':
+                    addCustomAIProvider();
+                    break;
+                case 'reset-privacy':
+                    resetPrivacySettings();
+                    break;
+                case 'focus-search':
+                    closeCommandPopup();
+                    document.getElementById('search-bar').focus();
+                    break;
+                case 'add-shortcut':
+                    closeCommandPopup();
+                    addNewShortcut();
+                    break;
+                case 'settings':
+                    alert('Settings panel coming soon!');
+                    closeCommandPopup();
+                    break;
+            }
+        }
+
+        function selectAIProvider(url, name) {
+            const privacyAcknowledged = localStorage.getItem('aiPrivacyAcknowledged') === 'true';
+            
+            if (!privacyAcknowledged) {
+                const checkbox = document.getElementById('privacy-checkbox');
+                if (!checkbox.checked) {
+                    alert('Please acknowledge the privacy warning before proceeding.');
+                    return;
+                }
+                // Save privacy acknowledgment and hide the warning
+                localStorage.setItem('aiPrivacyAcknowledged', 'true');
+            }
+            
+            closeCommandPopup();
+            openAIChat(url, name);
+        }
+
+        function resetPrivacySettings() {
+            localStorage.removeItem('aiPrivacyAcknowledged');
+            closeCommandPopup();
+            alert('Privacy settings have been reset. You will see the privacy warning again when accessing AI providers.');
+        }
+
+        function addCustomAIProvider() {
+            const name = prompt('Enter the name of the AI provider:');
+            if (!name) return;
+            
+            const url = prompt('Enter the URL of the AI provider:');
+            if (!url) return;
+            
+            const icon = prompt('Enter an emoji icon for the provider:') || '🤖';
+            
+            // Add to providers list
+            aiProviders.push({ name, url, icon });
+            
+            // Save to localStorage
+            localStorage.setItem('customAIProviders', JSON.stringify(aiProviders.slice(3))); // Save only custom ones
+            
+            closeCommandPopup();
+            alert(`Added ${name} to AI providers!`);
+        }
+
+        function openAIChat(url, name) {
+            document.getElementById('ai-iframe-container').style.display = 'flex';
+            document.getElementById('ai-iframe').src = url;
+            document.getElementById('ai-iframe-title').textContent = name;
+        }
+
+        function closeAIChat() {
+            document.getElementById('ai-iframe-container').style.display = 'none';
+            document.getElementById('ai-iframe').src = '';
+            document.getElementById('search-bar').focus();
+        }
+
+        // Command popup input handling
+        document.getElementById('command-input').addEventListener('input', (e) => {
+            updateCommandResults(e.target.value);
+        });
+
+        document.getElementById('command-input').addEventListener('keydown', (e) => {
+            if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                selectedCommandIndex = Math.min(selectedCommandIndex + 1, currentCommands.length - 1);
+                updateCommandResults(document.getElementById('command-input').value);
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                selectedCommandIndex = Math.max(selectedCommandIndex - 1, 0);
+                updateCommandResults(document.getElementById('command-input').value);
+            } else if (e.key === 'Enter') {
+                e.preventDefault();
+                if (currentCommands[selectedCommandIndex]) {
+                    if (isAIProviderSelection) {
+                        const provider = currentCommands[selectedCommandIndex];
+                        selectAIProvider(provider.url, provider.name);
+                    } else {
+                        executeCommand(currentCommands[selectedCommandIndex].action);
+                    }
+                }
+            }
+        });
+
+        // Click outside to close
+        document.getElementById('command-overlay').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('command-overlay')) {
+                closeCommandPopup();
+            }
+        });
+
+        document.getElementById('ai-iframe-container').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('ai-iframe-container')) {
+                closeAIChat();
+            }
+        });
+
+        // Initialize everything when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            renderShortcuts();
+            initializeClock();
+            initializeGreeting();
+            initializeWeather();
+            autoFocusSearch();
+            
+            // Load custom AI providers
+            const customProviders = localStorage.getItem('customAIProviders');
+            if (customProviders) {
+                try {
+                    const providers = JSON.parse(customProviders);
+                    aiProviders.push(...providers);
+                } catch (e) {
+                    console.error('Failed to load custom AI providers:', e);
                 }
             }
         });
