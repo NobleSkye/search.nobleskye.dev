@@ -10,16 +10,18 @@
     <meta name="twitter:title" content="Skye Search">
     <meta name="twitter:description" content="Skye Search Is a search engine that uses many search engines and puts the results together">
     <meta name="twitter:card" content="summary_large_image">
+    <link rel="icon" type="image/png" href="logo.png">
     <style>
 body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
-    height: 100vh;
+    justify-content: flex-start;
+    min-height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: rgb(66, 66, 66);
+    padding-top: 150px;
 }
 
 .logo img {
@@ -56,7 +58,7 @@ body {
 
 .search-button, .about-button {
     padding: 10px 20px;
-    border: none;
+    border: 1px solid transparent;
     background-color: #f8f9fa;
     border-radius: 4px;
     cursor: pointer;
@@ -65,9 +67,199 @@ body {
 .search-button:hover, .about-button:hover {
     border: 1px solid #1549af;
 }
+
+.shortcuts {
+    margin-top: 40px;
+    width: 100%;
+    max-width: 800px;
+}
+
+.shortcuts h3 {
+    color: white;
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.shortcut-item {
+    background-color: #4a4a4a;
+    border-radius: 8px;
+    padding: 15px 10px;
+    text-align: center;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    position: relative;
+    min-height: 80px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.shortcut-item:hover {
+    background-color: #5a5a5a;
+}
+
+.shortcut-item.editing {
+    background-color: #6a6a6a;
+}
+
+.shortcut-item.add-new {
+    border: 2px dashed #888;
+    background-color: transparent;
+    color: #888;
+}
+
+.shortcut-item.add-new:hover {
+    border-color: #aaa;
+    color: #aaa;
+    background-color: rgba(170, 170, 170, 0.1);
+}
+
+.shortcut-favicon {
+    width: 24px;
+    height: 24px;
+    margin: 0 auto 8px;
+    background-color: #888;
+    border-radius: 4px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.shortcut-title {
+    color: white;
+    font-size: 12px;
+    word-break: break-word;
+}
+
+.shortcut-input, .shortcut-title-input {
+    background-color: transparent;
+    border: 1px solid #888;
+    border-radius: 4px;
+    color: white;
+    padding: 4px;
+    font-size: 12px;
+    width: 100%;
+    margin-bottom: 5px;
+}
+
+.shortcut-controls {
+    display: none;
+    margin-top: 10px;
+}
+
+.shortcut-controls.show {
+    display: flex;
+    gap: 5px;
+    justify-content: center;
+}
+
+.shortcut-btn {
+    background-color: #666;
+    border: none;
+    color: white;
+    padding: 2px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    cursor: pointer;
+}
+
+.shortcut-btn:hover {
+    background-color: #777;
+}
+
+.shortcut-btn.save {
+    background-color: #4CAF50;
+}
+
+.shortcut-btn.cancel {
+    background-color: #f44336;
+}
+
+.shortcut-btn.delete {
+    background-color: #ff6b6b;
+}
+
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    color: #ccc;
+    font-size: 12px;
+}
+
+.footer a {
+    color: #ccc;
+    text-decoration: none;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.clock {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 18px;
+    font-weight: 300;
+}
+
+.weather {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    color: white;
+    font-size: 14px;
+}
+
+.greeting {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 300;
+    cursor: pointer;
+}
+
+.greeting {
+    color: white;
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+    font-weight: 300;
+}
+
+@media (max-width: 768px) {
+    .clock, .weather {
+        position: static;
+        text-align: center;
+        margin: 10px 0;
+    }
+    
+    .shortcuts-grid {
+        grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+        gap: 10px;
+    }
+    
+    body {
+        padding-top: 50px;
+    }
+}
     </style>
 </head>
 <body>
+    <div class="clock" id="clock"></div>
+    <div class="weather" id="weather"></div>
+    
+    <div class="greeting" id="greeting"></div>
+    
     <div class="logo">
         <img src="logo.png" alt="Skye Search Logo"> <!-- Image logo -->
     </div>
@@ -103,9 +295,9 @@ body {
                 }
                 navigate(query);
             } else {
-                // If it's not a URL, search Google
-                let googleSearchUrl = 'https://www.google.com/search?q=' + encodeURIComponent(query);
-                navigate(googleSearchUrl);
+                // If it's not a URL, search DuckDuckGo
+                let duckduckgoSearchUrl = 'https://duckduckgo.com/?q=' + encodeURIComponent(query);
+                navigate(duckduckgoSearchUrl);
             }
         }
 
@@ -119,6 +311,323 @@ body {
         function navigate(url) {
             window.location.href = url;
         }
+
+        // Cookie functions
+        function setCookie(name, value, days) {
+            const expires = new Date();
+            expires.setTime(expires.getTime() + (days * 24 * 60 * 60 * 1000));
+            document.cookie = name + '=' + encodeURIComponent(JSON.stringify(value)) + ';expires=' + expires.toUTCString() + ';path=/';
+        }
+
+        function getCookie(name) {
+            const nameEQ = name + "=";
+            const ca = document.cookie.split(';');
+            for(let i = 0; i < ca.length; i++) {
+                let c = ca[i];
+                while (c.charAt(0) === ' ') c = c.substring(1, c.length);
+                if (c.indexOf(nameEQ) === 0) {
+                    try {
+                        return JSON.parse(decodeURIComponent(c.substring(nameEQ.length, c.length)));
+                    } catch(e) {
+                        return null;
+                    }
+                }
+            }
+            return null;
+        }
+
+        // Default shortcuts
+        const defaultShortcuts = [
+            { title: 'YouTube', url: 'https://youtube.com' },
+            { title: 'Discord', url: 'https://www.discord.com/' },
+            { title: 'Pyro Host', url: 'https://pyro.host/' },
+            { title: 'GitHub', url: 'https://github.com/' },
+            { title: 'Stack Overflow', url: 'https://stackoverflow.com/' },
+            { title: 'T3 Chat', url: 'https://t3.chat/' }
+        ];
+
+        let shortcuts = getCookie('shortcuts') || defaultShortcuts;
+        let editingIndex = -1;
+
+        function getFaviconUrl(url) {
+            try {
+                const domain = new URL(url).hostname;
+                return `https://www.google.com/s2/favicons?domain=${domain}&sz=32`;
+            } catch {
+                return '';
+            }
+        }
+
+        function renderShortcuts() {
+            const container = document.getElementById('shortcuts-grid');
+            container.innerHTML = '';
+
+            shortcuts.forEach((shortcut, index) => {
+                const item = document.createElement('div');
+                item.className = 'shortcut-item';
+                item.innerHTML = `
+                    <div class="shortcut-favicon" style="background-image: url('${getFaviconUrl(shortcut.url)}')"></div>
+                    <div class="shortcut-title">${shortcut.title}</div>
+                `;
+                
+                item.addEventListener('click', () => {
+                    if (editingIndex === -1) {
+                        window.open(shortcut.url, '_blank');
+                    }
+                });
+
+                item.addEventListener('contextmenu', (e) => {
+                    e.preventDefault();
+                    editShortcut(index);
+                });
+
+                container.appendChild(item);
+            });
+
+            // Add "Add new" button
+            if (shortcuts.length < 12) {
+                const addItem = document.createElement('div');
+                addItem.className = 'shortcut-item add-new';
+                addItem.innerHTML = '<div style="font-size: 24px;">+</div><div class="shortcut-title">Add New</div>';
+                addItem.addEventListener('click', () => {
+                    if (editingIndex === -1) {
+                        addNewShortcut();
+                    }
+                });
+                container.appendChild(addItem);
+            }
+        }
+
+        function editShortcut(index) {
+            if (editingIndex !== -1) return;
+            
+            editingIndex = index;
+            const container = document.getElementById('shortcuts-grid');
+            const item = container.children[index];
+            const shortcut = shortcuts[index];
+            
+            item.className = 'shortcut-item editing';
+            item.innerHTML = `
+                <input type="text" class="shortcut-title-input" value="${shortcut.title}" placeholder="Title">
+                <input type="text" class="shortcut-input" value="${shortcut.url}" placeholder="URL">
+                <div class="shortcut-controls show">
+                    <button class="shortcut-btn save" onclick="saveShortcut(${index})">Save</button>
+                    <button class="shortcut-btn cancel" onclick="cancelEdit()">Cancel</button>
+                    <button class="shortcut-btn delete" onclick="deleteShortcut(${index})">Delete</button>
+                </div>
+            `;
+        }
+
+        function addNewShortcut() {
+            if (editingIndex !== -1) return;
+            
+            const newShortcut = { title: '', url: '' };
+            shortcuts.push(newShortcut);
+            editingIndex = shortcuts.length - 1;
+            renderShortcuts();
+            
+            const container = document.getElementById('shortcuts-grid');
+            const item = container.children[editingIndex];
+            
+            item.className = 'shortcut-item editing';
+            item.innerHTML = `
+                <input type="text" class="shortcut-title-input" value="" placeholder="Title">
+                <input type="text" class="shortcut-input" value="" placeholder="URL">
+                <div class="shortcut-controls show">
+                    <button class="shortcut-btn save" onclick="saveShortcut(${editingIndex})">Save</button>
+                    <button class="shortcut-btn cancel" onclick="cancelEdit()">Cancel</button>
+                </div>
+            `;
+        }
+
+        function saveShortcut(index) {
+            const container = document.getElementById('shortcuts-grid');
+            const item = container.children[index];
+            const titleInput = item.querySelector('.shortcut-title-input');
+            const urlInput = item.querySelector('.shortcut-input');
+            
+            const title = titleInput.value.trim();
+            const url = urlInput.value.trim();
+            
+            if (!title || !url) {
+                alert('Please enter both title and URL');
+                return;
+            }
+            
+            // Add protocol if missing
+            let finalUrl = url;
+            if (!url.startsWith('http://') && !url.startsWith('https://')) {
+                finalUrl = 'https://' + url;
+            }
+            
+            shortcuts[index] = { title, url: finalUrl };
+            setCookie('shortcuts', shortcuts, 365);
+            editingIndex = -1;
+            renderShortcuts();
+        }
+
+        function deleteShortcut(index) {
+            if (confirm('Are you sure you want to delete this shortcut?')) {
+                shortcuts.splice(index, 1);
+                setCookie('shortcuts', shortcuts, 365);
+                editingIndex = -1;
+                renderShortcuts();
+            }
+        }
+
+        function cancelEdit() {
+            if (editingIndex === shortcuts.length - 1 && !shortcuts[editingIndex].title && !shortcuts[editingIndex].url) {
+                shortcuts.pop();
+            }
+            editingIndex = -1;
+            renderShortcuts();
+        }
+
+        // Initialize shortcuts when page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            renderShortcuts();
+            initializeClock();
+            initializeGreeting();
+            initializeWeather();
+            autoFocusSearch();
+        });
+
+        // Auto-focus functionality
+        function autoFocusSearch() {
+            const searchBar = document.getElementById('search-bar');
+            
+            // Focus on page load
+            searchBar.focus();
+            
+            // Re-focus when window gains focus
+            window.addEventListener('focus', () => {
+                setTimeout(() => {
+                    searchBar.focus();
+                }, 100);
+            });
+            
+            // Re-focus when clicking anywhere on the page (except on interactive elements)
+            document.addEventListener('click', (e) => {
+                if (!e.target.closest('.shortcut-item') && 
+                    !e.target.closest('.search-button') && 
+                    !e.target.closest('.about-button') &&
+                    !e.target.closest('a') &&
+                    !e.target.closest('input') &&
+                    !e.target.closest('button') &&
+                    !e.target.closest('.greeting') &&
+                    !e.target.closest('.weather')) {
+                    searchBar.focus();
+                }
+            });
+            
+            // Re-focus when pressing Escape
+            document.addEventListener('keydown', (e) => {
+                if (e.key === 'Escape') {
+                    searchBar.focus();
+                    searchBar.select();
+                }
+            });
+        }
+
+        // Clock functionality
+        function initializeClock() {
+            function updateClock() {
+                const now = new Date();
+                const timeString = now.toLocaleTimeString('en-US', {
+                    hour12: false,
+                    hour: '2-digit',
+                    minute: '2-digit'
+                });
+                document.getElementById('clock').textContent = timeString;
+            }
+            
+            updateClock();
+            setInterval(updateClock, 1000);
+        }
+
+        // Greeting functionality
+        function initializeGreeting() {
+            const now = new Date();
+            const hour = now.getHours();
+            let greeting;
+            
+            if (hour < 12) {
+                greeting = "Good morning";
+            } else if (hour < 18) {
+                greeting = "Good afternoon";
+            } else {
+                greeting = "Good evening";
+            }
+            
+            // Try to get user's name from localStorage
+            const userName = localStorage.getItem('userName');
+            if (userName) {
+                greeting += `, ${userName}`;
+            }
+            
+            document.getElementById('greeting').textContent = greeting;
+            
+            // Allow user to set their name by clicking on greeting
+            document.getElementById('greeting').addEventListener('click', () => {
+                const name = prompt('What\'s your name?');
+                if (name && name.trim()) {
+                    localStorage.setItem('userName', name.trim());
+                    initializeGreeting();
+                }
+            });
+        }
+
+        // Weather functionality (placeholder)
+        function initializeWeather() {
+            const weatherElement = document.getElementById('weather');
+            const savedLocation = localStorage.getItem('weatherLocation');
+            
+            if (savedLocation) {
+                weatherElement.innerHTML = `🌤️ ${savedLocation}<br><small>Weather updates</small>`;
+            } else {
+                weatherElement.innerHTML = '🌤️ Weather<br><small>Click to set location</small>';
+            }
+            
+            weatherElement.addEventListener('click', () => {
+                const location = prompt('Enter your city for weather updates:');
+                if (location && location.trim()) {
+                    localStorage.setItem('weatherLocation', location.trim());
+                    initializeWeather();
+                }
+            });
+        }
+
+        // Keyboard shortcuts
+        document.addEventListener('keydown', (e) => {
+            // Ctrl/Cmd + K to focus search
+            if ((e.ctrlKey || e.metaKey) && e.key === 'k') {
+                e.preventDefault();
+                document.getElementById('search-bar').focus();
+                document.getElementById('search-bar').select();
+            }
+            
+            // Alt + 1-9 to open shortcuts
+            if (e.altKey && e.key >= '1' && e.key <= '9') {
+                e.preventDefault();
+                const index = parseInt(e.key) - 1;
+                if (shortcuts[index]) {
+                    window.open(shortcuts[index].url, '_blank');
+                }
+            }
+        });
     </script>
+    <div class="shortcuts">
+        <h3>Quick Access</h3>
+        <div id="shortcuts-grid" class="shortcuts-grid">
+            <!-- Shortcuts will be rendered here by JavaScript -->
+        </div>
+        <p style="color: #888; font-size: 11px; text-align: center; margin-top: 10px;">
+            Right-click any shortcut to edit • Click + to add new
+        </p>
+    </div>
+    <div class="footer">
+        <p>© 2025 NobleSkye. All rights reserved.</p>
+        <p><a href="privacy">Privacy Policy</a> | <a href="https://nobleskye.dev/">About NobleSkye</a> | <a href="/terms">Terms of Service</a></p>
+    </div>
 </body>
 </html>
