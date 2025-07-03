@@ -464,7 +464,7 @@ body {
         <img src="logo.png" alt="Skye Search Logo"> <!-- Image logo -->
     </div>
     <div class="search-container">
-        <form action="" method="get" id="search-form">
+        <form action="https://meow.skyesearch.cc/search" method="get" id="search-form">
             <input type="text" name="q" class="search-bar" id="search-bar" placeholder="Search or enter URL" autofocus>
         </form>
     </div>
@@ -521,9 +521,9 @@ body {
                 }
                 navigate(query);
             } else {
-                // If it's not a URL, search DuckDuckGo
-                let duckduckgoSearchUrl = 'https://duckduckgo.com/?q=' + encodeURIComponent(query);
-                navigate(duckduckgoSearchUrl);
+                // If it's not a URL, search using SearXNG
+                let searxSearchUrl = 'https://meow.skyesearch.cc/search?q=' + encodeURIComponent(query);
+                navigate(searxSearchUrl);
             }
         }
 
