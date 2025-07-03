@@ -1,0 +1,6 @@
+*.env
+.devcontainer/
+.ignore/
+.vscode/
+.git/
+.github/prompts/*

@@ -3,73 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>About - Go Browser</title>
-    <style>
-        body {
-            font-family: Arial, sans-serif;
-            line-height: 1.6;
-            max-width: 800px;
-            margin: 0 auto;
-            padding: 20px;
-            background-color: rgb(66, 66, 66);
-            color: rgb(255, 255, 255);  /* Changed to white */
-        }
-        .warning {
-            background-color: #fff3cd;
-            border: 1px solid #ffeeba;
-            color: #856404;  /* Warning text stays the same */
-            padding: 15px;
-            border-radius: 4px;
-            margin: 20px 0;
-        }
-        code {
-            background-color: #f4f4f4;
-            color: #000000;  /* Code text stays black */
-            padding: 2px 5px;
-            border-radius: 3px;
-        }
-        pre {
-            background-color: #f4f4f4;
-            color: #000000;  /* Pre text stays black */
-            padding: 15px;
-            border-radius: 5px;
-            overflow-x: auto;
-        }
-    </style>
-    
+    <title>About - Skye Search</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
-    <h1>Go Browser</h1>
-    <p>A lightweight and fast internet browser implementation written in Go.</p>
+    <div class="page-container">
+        <div class="page-header">
+            <h1>About Skye Search</h1>
+            <p class="subtitle">Privacy-focused metasearch engine</p>
+        </div>
+        
+        <div class="page-content">
+            <h2>What is Skye Search?</h2>
+            <p>Skye Search is a privacy-focused metasearch engine that aggregates results from multiple search engines to provide you with comprehensive and unbiased search results. Built with user privacy as our top priority, we don't track, store, or profile our users.</p>
 
-    <h2>Description</h2>
-    <p>This project aims to create a modern web browser using the Go programming language. The browser will handle HTTP/HTTPS requests, render HTML/CSS, and execute JavaScript.</p>
+            <h2>How It Works</h2>
+            <p>Our search engine operates by:</p>
+            <ul>
+                <li><strong>Aggregating Results:</strong> We query multiple search engines and combine their results to give you a more complete picture</li>
+                <li><strong>Removing Tracking:</strong> All queries are anonymized and we strip tracking parameters from results</li>
+                <li><strong>No Data Collection:</strong> We don't store your search history, IP addresses, or personal information</li>
+                <li><strong>Open Source Powered:</strong> Built on SearXNG, an open-source metasearch engine framework</li>
+            </ul>
 
-    <h2>Features</h2>
-    <ul>
-        <li>Web page rendering</li>
-        <li>Basic navigation controls</li>
-        <li>URL parsing and handling</li>
-        <li>Modern web protocol support</li>
-    </ul>
+            <div class="features-list">
+                <div class="feature-item">
+                    <h4>🔒 Privacy First</h4>
+                    <p>No tracking, no data collection, no user profiling. Your searches remain completely private.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🌐 Multiple Sources</h4>
+                    <p>Results aggregated from various search engines including Google, Bing, DuckDuckGo, and more.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>⚡ Fast & Clean</h4>
+                    <p>Lightweight interface with quick load times and no unnecessary bloat.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🎨 Customizable</h4>
+                    <p>Personalize your experience with custom shortcuts and settings.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>🔧 AI Integration</h4>
+                    <p>Quick access to various AI chat services when you need more than just search results.</p>
+                </div>
+                <div class="feature-item">
+                    <h4>📱 Responsive</h4>
+                    <p>Works seamlessly across desktop, tablet, and mobile devices.</p>
+                </div>
+            </div>
 
-    <h2>Installation</h2>
-    <pre><code>git clone https://github.com/NobleSkye/go-browser
-cd go-browser
-go build</code></pre>
+            <h2>Features</h2>
+            <ul>
+                <li><strong>Metasearch:</strong> Combines results from multiple search engines</li>
+                <li><strong>Quick Shortcuts:</strong> Customizable shortcuts to your favorite websites</li>
+                <li><strong>AI Chat Access:</strong> Integrated access to popular AI assistants</li>
+                <li><strong>URL Detection:</strong> Smart handling of direct URL navigation</li>
+                <li><strong>Keyboard Shortcuts:</strong> Efficient navigation with keyboard commands</li>
+                <li><strong>Dark Theme:</strong> Easy on the eyes for extended use</li>
+                <li><strong>No Cookies Required:</strong> Basic functionality works without any cookies</li>
+            </ul>
 
-    <h2>Usage</h2>
-    <pre><code>./go-browser</code></pre>
+            <h2>Technology Stack</h2>
+            <div class="info-box">
+                <p><strong>Backend:</strong> SearXNG (Privacy-respecting metasearch engine)</p>
+                <p><strong>Frontend:</strong> Vanilla HTML, CSS, and JavaScript</p>
+                <p><strong>Infrastructure:</strong> Self-hosted for maximum privacy control</p>
+                <p><strong>Open Source:</strong> Built on open-source technologies</p>
+            </div>
 
-    <h2>Disclaimer</h2>
-    <div class="warning">
-        This is a passion project and to test my skills of learning go I may or may not add to this
+            <h2>Privacy Commitment</h2>
+            <p>We believe privacy is a fundamental right. That's why:</p>
+            <ul>
+                <li>We never log your search queries</li>
+                <li>We don't use tracking cookies or analytics</li>
+                <li>Your IP address is not stored</li>
+                <li>We don't build user profiles</li>
+                <li>All data is processed anonymously</li>
+            </ul>
+
+            <div class="warning-box">
+                <strong>Third-Party AI Services:</strong> When using our AI chat feature, you'll be connecting directly to third-party services (like ChatGPT, Claude, etc.). These services have their own privacy policies and may collect data. We always warn you before connecting to these services.
+            </div>
+
+            <h2>About NobleSkye</h2>
+            <p>Skye Search is developed by NobleSkye, a developer focused on creating privacy-respecting and user-friendly web tools. We believe technology should serve users, not exploit them.</p>
+
+            <h3>Contact & Support</h3>
+            <p>For questions, suggestions, or technical support:</p>
+            <ul>
+                <li>Website: <a href="https://nobleskye.dev/" target="_blank">nobleskye.dev</a></li>
+                <li>GitHub: <a href="https://github.com/NobleSkye" target="_blank">@NobleSkye</a></li>
+            </ul>
+
+            <h2>Open Source</h2>
+            <p>Skye Search is built on open-source technologies and principles. The frontend code is available for inspection and contribution on GitHub.</p>
+
+            <a href="index.html" class="back-button">← Back to Search</a>
+        </div>
     </div>
-
-    <h2>Contributing</h2>
-    <p>Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change.</p>
-
-    <h2>License</h2>
-    <p><a href="https://choosealicense.com/licenses/mit/">MIT</a></p>
 </body>
 </html>
