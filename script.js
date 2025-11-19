@@ -211,108 +211,14 @@ function cancelEdit() {
     renderShortcuts();
 }
 
-function autoFocusSearch() {
-    const searchBar = document.getElementById('search-bar');
+function handleAiSearch(event) {
+    event.preventDefault();
+    let searchBar = document.getElementById('search-bar');
+    let query = searchBar.value.trim();
     
-    // Focus on page load
-    searchBar.focus();
-    
-    // Re-focus when window gains focus
-    window.addEventListener('focus', () => {
-        setTimeout(() => {
-            searchBar.focus();
-        }, 100);
-    });
-    
-    // Re-focus when clicking anywhere on the page (except on interactive elements)
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.shortcut-item') && 
-            !e.target.closest('.search-button') && 
-            !e.target.closest('.about-button') &&
-            !e.target.closest('a') &&
-            !e.target.closest('input') &&
-            !e.target.closest('button') &&
-            !e.target.closest('.greeting') &&
-            !e.target.closest('.weather')) {
-            searchBar.focus();
-        }
-    });
-    
-    // Re-focus when pressing Escape (only if command popup is not open)
-    document.addEventListener('keydown', (e) => {
-        if (e.key === 'Escape' && document.getElementById('command-overlay').style.display !== 'flex') {
-            document.getElementById('search-bar').focus();
-            document.getElementById('search-bar').select();
-        }
-    });
-}
-
-// Clock functionality
-function initializeClock() {
-    function updateClock() {
-        const now = new Date();
-        const timeString = now.toLocaleTimeString('en-US', {
-            hour12: false,
-            hour: '2-digit',
-            minute: '2-digit'
-        });
-        document.getElementById('clock').textContent = timeString;
-    }
-    
-    updateClock();
-    setInterval(updateClock, 1000);
-}
-
-// Greeting functionality
-function initializeGreeting() {
-    const now = new Date();
-    const hour = now.getHours();
-    let greeting;
-    
-    if (hour < 12) {
-        greeting = "Good morning";
-    } else if (hour < 18) {
-        greeting = "Good afternoon";
-    } else {
-        greeting = "Good evening";
-    }
-    
-    // Try to get user's name from localStorage
-    const userName = localStorage.getItem('userName');
-    if (userName) {
-        greeting += `, ${userName}`;
-    }
-    
-    document.getElementById('greeting').textContent = greeting;
-    
-    // Allow user to set their name by clicking on greeting
-    document.getElementById('greeting').addEventListener('click', () => {
-        const name = prompt('What\'s your name?');
-        if (name && name.trim()) {
-            localStorage.setItem('userName', name.trim());
-            initializeGreeting();
-        }
-    });
-}
-
-// Weather functionality (placeholder)
-function initializeWeather() {
-    const weatherElement = document.getElementById('weather');
-    const savedLocation = localStorage.getItem('weatherLocation');
-    
-    if (savedLocation) {
-        weatherElement.innerHTML = `🌤️ ${savedLocation}<br><small>Weather updates</small>`;
-    } else {
-        weatherElement.innerHTML = '🌤️ Weather<br><small>Click to set location</small>';
-    }
-    
-    weatherElement.addEventListener('click', () => {
-        const location = prompt('Enter your city for weather updates:');
-        if (location && location.trim()) {
-            localStorage.setItem('weatherLocation', location.trim());
-            initializeWeather();
-        }
-    });
+    // Replace with your local AI search URL
+    let aiSearchUrl = 'http://localhost:1234/search?q=' + encodeURIComponent(query);
+    navigate(aiSearchUrl);
 }
 
 // Keyboard shortcuts
@@ -641,9 +547,6 @@ Click OK to view on GitHub (if available)`;
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', () => {
     renderShortcuts();
-    initializeClock();
-    initializeGreeting();
-    initializeWeather();
     autoFocusSearch();
     loadCommitInfo();
     

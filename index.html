@@ -14,22 +14,50 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="clock" id="clock"></div>
-    <div class="weather" id="weather"></div>
-    
-    <div class="greeting" id="greeting"></div>
-    
-    <div class="logo">
-        <img src="logo.png" alt="Skye Search Logo"> <!-- Image logo -->
-    </div>
-    <div class="search-container">
-        <form action="https://meow.skyesearch.cc/search" method="get" id="search-form">
-            <input type="text" name="q" class="search-bar" id="search-bar" placeholder="Search or enter URL" autofocus>
-        </form>
-    </div>
-    <div class="button-container">
-        <button type="submit" class="search-button" onclick="handleSearch(event)">Search</button>
-        <button type="button" class="about-button" onclick="navigate('https://search.nobleskye.dev/about.html')">About</button>
+    <div class="browser-container">
+        <header class="browser-header">
+            <div class="browser-menu">
+                <span>File</span>
+                <span>Edit</span>
+                <span>View</span>
+                <span>History</span>
+                <span>Bookmarks</span>
+                <span>Tools</span>
+                <span>Help</span>
+            </div>
+            <div class="browser-controls">
+                <button class="browser-control-button">‹</button>
+                <button class="browser-control-button">›</button>
+                <button class="browser-control-button">⟳</button>
+            </div>
+            <div class="search-container">
+                <form action="https://meow.skyesearch.cc/search" method="get" id="search-form">
+                    <input type="text" name="q" class="search-bar" id="search-bar" placeholder="Search or enter URL" autofocus>
+                </form>
+            </div>
+            <div class="browser-options">
+                <button class="browser-option-button">☰</button>
+            </div>
+        </header>
+        <div class="content-container">
+            <div class="logo">
+                <img src="logo.png" alt="Skye Search Logo">
+            </div>
+            <div class="button-container">
+                <button type="submit" class="search-button" onclick="handleSearch(event)">Search</button>
+                <button type="button" class="about-button" onclick="navigate('https://search.nobleskye.dev/about.html')">About</button>
+                <button type="button" class="ai-search-button" onclick="handleAiSearch(event)">AI Search</button>
+            </div>
+            <div class="shortcuts">
+                <h3>Quick Access</h3>
+                <div id="shortcuts-grid" class="shortcuts-grid">
+                    <!-- Shortcuts will be rendered here by JavaScript -->
+                </div>
+                <p style="color: #888; font-size: 11px; text-align: center; margin-top: 10px;">
+                    Right-click any shortcut to edit • Click + to add new
+                </p>
+            </div>
+        </div>
     </div>
 
     <!-- Command Popup -->
@@ -56,16 +84,6 @@
             </div>
             <iframe class="ai-iframe" id="ai-iframe" src=""></iframe>
         </div>
-    </div>
-    
-    <div class="shortcuts">
-        <h3>Quick Access</h3>
-        <div id="shortcuts-grid" class="shortcuts-grid">
-            <!-- Shortcuts will be rendered here by JavaScript -->
-        </div>
-        <p style="color: #888; font-size: 11px; text-align: center; margin-top: 10px;">
-            Right-click any shortcut to edit • Click + to add new
-        </p>
     </div>
     
     <div class="footer">

@@ -7,7 +7,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     background-color: rgb(66, 66, 66);
-    padding-top: 150px;
+    padding-top: 0;
 }
 
 .logo img {
@@ -37,12 +37,13 @@ body {
 .button-container {
     margin-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
+    gap: 10px;
     width: 100%;
     max-width: 584px;
 }
 
-.search-button, .about-button {
+.search-button, .about-button, .ai-search-button {
     padding: 10px 20px;
     border: 1px solid transparent;
     background-color: #f8f9fa;
@@ -50,7 +51,7 @@ body {
     cursor: pointer;
 }
 
-.search-button:hover, .about-button:hover {
+.search-button:hover, .about-button:hover, .ai-search-button:hover {
     border: 1px solid #1549af;
 }
 
@@ -577,4 +578,65 @@ body {
     .features-list {
         grid-template-columns: 1fr;
     }
+}
+
+/* Firefox UI Styles */
+.browser-container {
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.browser-header {
+    display: flex;
+    align-items: center;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-bottom: 1px solid #ccc;
+}
+
+.browser-menu {
+    display: flex;
+    gap: 15px;
+    font-size: 14px;
+    margin-right: 20px;
+}
+
+.browser-controls {
+    display: flex;
+    gap: 8px;
+}
+
+.browser-control-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.search-container {
+    flex-grow: 1;
+    margin: 0 10px;
+}
+
+.browser-options {
+    margin-left: 10px;
+}
+
+.browser-option-button {
+    background: none;
+    border: none;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.content-container {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    overflow-y: auto;
+    background-color: rgb(66, 66, 66);
 }
