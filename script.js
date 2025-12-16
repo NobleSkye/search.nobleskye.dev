@@ -4,6 +4,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const searchBar = document.querySelector('.search-bar');
     searchBar.addEventListener('input', debounce(checkHealth, 500));
+
+    checkHealth();
 });
 
 function handleSearch(event) {
@@ -19,7 +21,10 @@ function handleSearch(event) {
 let healthCheckController;
 
 async function checkHealth() {
-    const errorMessage = document.getElementById('error-message');
+    const statusDiv = document.getElementById('status');
+    statusDiv.textContent = 'status: pinging...';
+    statusDiv.className = '';
+
     try {
         if (healthCheckController) {
             healthCheckController.abort();
@@ -27,19 +32,19 @@ async function checkHealth() {
         healthCheckController = new AbortController();
         const signal = healthCheckController.signal;
 
-        const response = await fetch('https://meow.skyesearch.cc/', {
+        await fetch('https://meow.skyesearch.cc/', {
             method: 'HEAD',
             mode: 'no-cors',
             signal: signal
         });
 
-        // no-cors requests will have a status of 0, so we can't check for a 200
-        // instead, we'll assume that if the request doesn't throw an error, the service is online.
-        errorMessage.style.display = 'none';
+        statusDiv.textContent = 'status: online';
+        statusDiv.classList.add('online');
 
     } catch (error) {
         if (error.name !== 'AbortError') {
-            errorMessage.style.display = 'block';
+            statusDiv.textContent = 'status: offline';
+            statusDiv.classList.add('offline');
         }
     }
 }
