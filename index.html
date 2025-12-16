@@ -4,79 +4,24 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Skye Search</title>
-    <meta property="og:title" content="Skye Search">
-    <meta property="og:description" content="Skye Search Is a search engine that uses many search engines and puts the results together.">
-    <meta property="og:type" content="website">
-    <meta name="twitter:title" content="Skye Search">
-    <meta name="twitter:description" content="Skye Search Is a search engine that uses many search engines and puts the results together">
-    <meta name="twitter:card" content="summary_large_image">
-    <link rel="icon" type="image/png" href="logo.png">
     <link rel="stylesheet" href="styles.css">
+    <link rel="icon" type="image/png" href="logo.png">
 </head>
 <body>
-    <div class="clock" id="clock"></div>
-    <div class="weather" id="weather"></div>
-    
-    <div class="greeting" id="greeting"></div>
-    
-    <div class="logo">
-        <img src="logo.png" alt="Skye Search Logo"> <!-- Image logo -->
-    </div>
-    <div class="search-container">
-        <form action="https://meow.skyesearch.cc/search" method="get" id="search-form">
-            <input type="text" name="q" class="search-bar" id="search-bar" placeholder="Search or enter URL" autofocus>
+    <div class="container">
+        <img src="logo.png" alt="Skye Search Logo" class="logo">
+        <form action="https://meow.skyesearch.cc/search" method="get" class="search-form">
+            <input type="text" name="q" class="search-bar" placeholder="Search with Skye Search" autofocus>
+            <div class="button-container">
+                <button type="submit" class="search-button">Skye Search</button>
+            </div>
         </form>
     </div>
-    <div class="button-container">
-        <button type="submit" class="search-button" onclick="handleSearch(event)">Search</button>
-        <button type="button" class="about-button" onclick="navigate('https://search.nobleskye.dev/about.html')">About</button>
-    </div>
-
-    <!-- Command Popup -->
-    <div class="command-overlay" id="command-overlay">
-        <div class="command-popup">
-            <input type="text" class="command-input" id="command-input" placeholder="Type a command..." autocomplete="off">
-            <div class="privacy-warning" id="privacy-warning" style="display: none;">
-                <span>⚠️</span>
-                <div>
-                    <input type="checkbox" class="privacy-checkbox" id="privacy-checkbox">
-                    <label for="privacy-checkbox">I understand these are 3rd party apps that may or may not track you and are not affiliated with Skye Search</label>
-                </div>
-            </div>
-            <div class="command-results" id="command-results"></div>
-        </div>
-    </div>
-
-    <!-- AI Chat iframe Container -->
-    <div class="ai-iframe-container" id="ai-iframe-container">
-        <div class="ai-iframe-wrapper">
-            <div class="ai-iframe-header">
-                <div class="ai-iframe-title" id="ai-iframe-title">AI Chat</div>
-                <button class="ai-iframe-close" onclick="closeAIChat()">×</button>
-            </div>
-            <iframe class="ai-iframe" id="ai-iframe" src=""></iframe>
-        </div>
-    </div>
-    
-    <div class="shortcuts">
-        <h3>Quick Access</h3>
-        <div id="shortcuts-grid" class="shortcuts-grid">
-            <!-- Shortcuts will be rendered here by JavaScript -->
-        </div>
-        <p style="color: #888; font-size: 11px; text-align: center; margin-top: 10px;">
-            Right-click any shortcut to edit • Click + to add new
-        </p>
-    </div>
-    
-    <div class="footer">
-        <p>© 2025 NobleSkye. All rights reserved.</p>
-        <p><a href="privacy.html">Privacy Policy</a> | <a href="https://nobleskye.dev/">About NobleSkye</a> | <a href="terms.html">Terms of Service</a></p>
-        <div class="commit-info" id="commit-info" onclick="showCommitDetails()">
-            <span class="commit-hash" id="commit-hash">Loading...</span>
-            <span class="commit-date" id="commit-date"></span>
-        </div>
-    </div>
-    
+    <footer>
+        <p>Made with ♡ by <a href="https://nobleskye.dev">NobleSkye</a></p>
+        <p><a href="privacy.html">Privacy</a> | <a href="terms.html">Terms</a></p>
+        <div id="status">status: pinging...</div>
+    </footer>
     <script src="script.js"></script>
 </body>
 </html>
