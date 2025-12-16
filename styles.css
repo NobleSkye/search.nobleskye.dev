@@ -99,7 +99,3 @@ footer a:hover {
 #status.offline {
     color: #f00;
 }
-
-#status.maintenance {
-    color: #ff0;
-}

@@ -22,7 +22,7 @@ let healthCheckController;
 
 async function checkHealth() {
     const statusDiv = document.getElementById('status');
-    statusDiv.textContent = 'status: checking';
+    statusDiv.textContent = 'status: checking...';
     statusDiv.className = '';
 
     try {
@@ -32,26 +32,14 @@ async function checkHealth() {
         healthCheckController = new AbortController();
         const signal = healthCheckController.signal;
 
-        const response = await fetch('https://meow.skyesearch.cc/', {
-            method: 'GET',
-            mode: 'cors',
+        await fetch('https://meow.skyesearch.cc/', {
+            method: 'HEAD',
+            mode: 'no-cors',
             signal: signal
         });
 
-        if (response.status === 404) {
-            statusDiv.textContent = 'status: offline';
-            statusDiv.classList.add('offline');
-            return;
-        }
-
-        const text = await response.text();
-        if (text.includes('no available server')) {
-            statusDiv.textContent = 'status: under maintenance';
-            statusDiv.classList.add('maintenance');
-        } else {
-            statusDiv.textContent = 'status: online';
-            statusDiv.classList.add('online');
-        }
+        statusDiv.textContent = 'status: online';
+        statusDiv.classList.add('online');
 
     } catch (error) {
         if (error.name !== 'AbortError') {
