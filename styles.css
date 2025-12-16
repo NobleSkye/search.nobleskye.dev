@@ -5,7 +5,8 @@ body {
     height: 100vh;
     margin: 0;
     font-family: Arial, sans-serif;
-    background-color: #fff;
+    background-color: #202124;
+    color: #e8eaed;
 }
 
 .container {
@@ -16,7 +17,6 @@ body {
 
 .logo {
     width: 272px;
-    height: 92px;
     margin-bottom: 28px;
 }
 
@@ -31,14 +31,17 @@ body {
     height: 46px;
     padding: 0 20px;
     font-size: 16px;
-    border: 1px solid #dfe1e5;
+    background-color: #303134;
+    border: 1px solid #303134;
     border-radius: 24px;
     outline: none;
-    box-shadow: 0 1px 6px rgba(32, 33, 36, 0.28);
+    color: #e8eaed;
 }
 
 .search-bar:hover {
-    box-shadow: 0 2px 8px rgba(32, 33, 36, 0.4);
+    background-color: #3c4043;
+    box-shadow: 0 1px 6px rgba(0, 0, 0, 0.2);
+    border-color: #3c4043;
 }
 
 .button-container {
@@ -50,16 +53,33 @@ body {
     padding: 0 16px;
     font-size: 14px;
     font-weight: bold;
-    color: #5f6368;
-    background-color: #f8f9fa;
-    border: 1px solid #f8f9fa;
+    color: #e8eaed;
+    background-color: #303134;
+    border: 1px solid #303134;
     border-radius: 4px;
     cursor: pointer;
 }
 
 .search-button:hover {
-    color: #202124;
-    background-color: #f2f2f2;
-    border: 1px solid #f2f2f2;
+    background-color: #3c4043;
+    border: 1px solid #3c4043;
     box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1);
+}
+
+footer {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    font-size: 12px;
+}
+
+footer a {
+    color: #999;
+    text-decoration: none;
+}
+
+footer a:hover {
+    text-decoration: underline;
 }
