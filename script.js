@@ -13,7 +13,7 @@ function handleSearch(event) {
     const searchBar = document.querySelector('.search-bar');
     const query = searchBar.value.trim();
     if (query) {
-        const searchUrl = 'https://meow.skyesearch.cc/search?q=' + encodeURIComponent(query);
+        const searchUrl = 'https://skyesearch.cc/search?q=' + encodeURIComponent(query);
         window.location.href = searchUrl;
     }
 }
